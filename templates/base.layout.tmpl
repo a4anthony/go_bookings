@@ -154,6 +154,18 @@
             })
         }
 
+        {{with .Error}}
+        notify("{{.}}", "error");
+        {{end}}
+
+        {{with .Flash}}
+        notify("{{.}}", "success");
+        {{end}}
+
+        {{with .Warning}}
+        notify("{{.}}", "warning");
+        {{end}}
+
         function Prompt() {
             let toast = function (c) {
                 const {
@@ -225,12 +237,12 @@
                     focusConfirm: false,
                     showCancelButton: true,
                     willOpen: () => {
-                        if (c.willOpen() !== undefined) {
+                        if (c.willOpen !== undefined) {
                             c.willOpen();
                         }
                     },
                     didOpen: () => {
-                        if (c.didOpen() !== undefined) {
+                        if (c.didOpen !== undefined) {
                             c.didOpen();
                         }
                     },
@@ -244,15 +256,15 @@
 
                 if (result) {
                     if (result.dismiss !== Swal.DismissReason.cancel) {
-                        if (result.value != "") {
+                        if (result.value !== "") {
                             if (c.callback !== undefined) {
-                                c.callback(result.value)
-                            } else {
-                                c.callback(false)
+                                c.callback(result);
                             }
+                        } else {
+                            c.callback(false);
                         }
                     } else {
-                        c.callback(false)
+                        c.callback(false);
                     }
                 }
             }
