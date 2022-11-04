@@ -1,0 +1,17 @@
+{{ template "base" .}}
+
+
+
+{{ define "content" }}
+    <h1>This is the about page</h1>
+    <span>From template {{ index .StringMap "test" }}</span>
+
+        <p>
+            {{ if ne (index .StringMap "remote_ip") "" }}
+                <span>Your remote ip address is {{  index .StringMap "remote_ip" }}</span>
+            {{ else }}
+                <span>I don't know your ip address yet.</span>
+            {{ end }}
+        </p>
+    <a href="/">Home</a>
+{{ end }}
